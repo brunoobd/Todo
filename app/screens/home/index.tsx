@@ -28,8 +28,14 @@ export function Home() {
   ];
 
   const renderItem = ({ item }: { item: TaskType }) => {
-    const handleCompleteTask = () => {
-      setTasks((prevState) => [
+    const handleToggleTask = () => {
+      if (item.completed) {
+        return setTasks((prevState) => [
+          { ...item, completed: false },
+          ...prevState.filter((task) => task.id !== item.id),
+        ]);
+      }
+      return setTasks((prevState) => [
         ...prevState.filter((task) => task.id !== item.id),
         { ...item, completed: true },
       ]);
@@ -61,7 +67,7 @@ export function Home() {
       <Task
         key={item.id}
         task={item}
-        onComplete={handleCompleteTask}
+        onToggle={handleToggleTask}
         onRemove={handleRemoveTask}
       />
     );
@@ -89,6 +95,12 @@ export function Home() {
         "Nome da tarefa",
         "O nome da tarefa não pode ser vazio.",
         [{ text: "Ok", onPress: () => setTaskName("") }]
+      );
+    } else if (taskName.trim().length > 70) {
+      return Alert.alert(
+        "Nome da tarefa",
+        "O nome da tarefa não pode ser maior que 70 caracteres.",
+        [{ text: "Ok" }]
       );
     } else if (!!tasks.filter((task) => task.name === taskName.trim()).length) {
       return Alert.alert(

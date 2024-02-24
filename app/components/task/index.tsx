@@ -6,11 +6,11 @@ import { CheckBox } from "../checkbox";
 
 type Props = {
   task: TaskType;
-  onComplete: () => void;
+  onToggle: () => void;
   onRemove: () => void;
 };
 
-export const Task = ({ task, onComplete, onRemove }: Props) => {
+export const Task = ({ task, onToggle, onRemove }: Props) => {
   const { container, button, buttonPressed, icon, iconPressed } = styles;
   const { name, completed } = task;
 
@@ -28,7 +28,7 @@ export const Task = ({ task, onComplete, onRemove }: Props) => {
 
   return (
     <View style={container}>
-      <CheckBox checked={completed} onPress={onComplete}/>
+      <CheckBox checked={completed} onPress={onToggle}/>
       <Text style={{ fontSize: 14, width: '75%', ...textStyle }}>{name}</Text>
       <Pressable
         style={({ pressed }) => [button, pressed && buttonPressed]}
